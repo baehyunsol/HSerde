@@ -1,6 +1,6 @@
 [package]
 name = "hserde"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Baehyunsol <baehyunsol@naver.com>"]
 description = "Simple serialization/deserialization library written purely in Rust."
