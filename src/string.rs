@@ -4,7 +4,7 @@ impl HSerde for String {
 
     fn to_bytes(&self) -> Vec<u8> {
         vec![
-            (self.len() as u32).to_bytes(),
+            self.len().to_bytes(),
             self.as_bytes().iter().map(|n| *n).collect::<Vec<u8>>()
         ].concat()
     }

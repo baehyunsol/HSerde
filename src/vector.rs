@@ -5,7 +5,7 @@ impl<T: HSerde> HSerde for Vec<T> {
     fn to_bytes(&self) -> Vec<u8> {
         let mut result = Vec::with_capacity(self.len() + 1);
 
-        result.push((self.len() as u32).to_bytes());
+        result.push(self.len().to_bytes());
 
         for n in self.iter() {
             result.push(n.to_bytes());

@@ -118,6 +118,63 @@ impl HSerde for usize {
 
 }
 
+impl HSerde for u64 {
+
+    fn to_bytes(&self) -> Vec<u8> {
+
+        if *self < 128 {
+            vec![*self as u8]
+        }
+
+        else if *self < 128 * 128 {
+            vec![(self / 128) as u8 + 128, (self % 128) as u8]
+        }
+
+        else if *self < 128 * 128 * 128 {
+            vec![(self / 128 / 128) as u8 + 128, (self / 128 % 128) as u8 + 128, (self % 128) as u8]
+        }
+
+        else {
+            let mut n = *self;
+            let mut result = vec![];
+
+            while n > 0 {
+                result.push((n % 128) as u8 + 128);
+                n /= 128;
+            }
+
+            result[0] -= 128;
+            result.into_iter().rev().collect()
+        }
+
+    }
+
+    fn from_bytes_internal(bytes: &[u8], mut index: usize) -> Result<(u64, usize), HSerdeError> {
+        let mut result = 0;
+
+        if index >= bytes.len() {
+            return Err(HSerdeError::IndexError);
+        }
+
+        while bytes[index] >= 128 {
+            result *= 128;
+            result += (bytes[index] - 128) as u64;
+            index += 1;
+
+            if index >= bytes.len() {
+                return Err(HSerdeError::IndexError);
+            }
+
+        }
+
+        result *= 128;
+        result += bytes[index] as u64;
+
+        Ok((result, index + 1))
+    }
+
+}
+
 impl HSerde for i32 {
 
     fn to_bytes(&self) -> Vec<u8> {

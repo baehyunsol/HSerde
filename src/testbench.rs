@@ -1,4 +1,5 @@
 mod tests {
+    use crate::HSerde;
 
     #[test]
     fn sign_conversion_test() {
@@ -16,8 +17,6 @@ mod tests {
 
     #[test]
     fn vector_test() {
-        use crate::HSerde;
-
         assert_eq!(
             Vec::<u32>::new(),
             Vec::<u32>::from_bytes(&(Vec::<u32>::new()).to_bytes(), 0).unwrap()
@@ -58,7 +57,6 @@ mod tests {
 
     #[test]
     fn integer_test() {
-        use crate::HSerde;
 
         for n in 0..255u8 {
             assert_eq!(n, u8::from_bytes(&n.to_bytes(), 0).unwrap());
@@ -78,18 +76,21 @@ mod tests {
 
     #[test]
     fn boolean_test() {
-        use crate::HSerde;
-
         assert_eq!(true, bool::from_bytes(&true.to_bytes(), 0).unwrap());
         assert_eq!(false, bool::from_bytes(&false.to_bytes(), 0).unwrap());
     }
 
     #[test]
     fn string_test() {
-        use crate::HSerde;
-
         assert_eq!("".to_string(), String::from_bytes(&("".to_string()).to_bytes(), 0).unwrap());
         assert_eq!("a".to_string(), String::from_bytes(&("a".to_string()).to_bytes(), 0).unwrap());
         assert_eq!("abcdefg".to_string(), String::from_bytes(&("abcdefg".to_string()).to_bytes(), 0).unwrap());
+    }
+
+    #[test]
+    fn tuple_test() {
+        assert_eq!((vec![1, 2, 3], String::from("hello, world!")), HSerde::from_bytes(&(vec![1, 2, 3], String::from("hello, world!")).to_bytes(), 0).unwrap());
+        assert_eq!(((1, (1, 2)), ((3, 4), (5, 6))), HSerde::from_bytes(&((1, (1, 2)), ((3, 4), (5, 6))).to_bytes(), 0).unwrap());
+        assert_eq!((1, (2, (3, (4, (5, 6, 7, 8, 9))))), HSerde::from_bytes(&(1, (2, (3, (4, (5, 6, 7, 8, 9))))).to_bytes(), 0).unwrap());
     }
 }
