@@ -3,7 +3,7 @@ mod tests {
 
     #[test]
     fn sign_conversion_test() {
-        use crate::integer::{signed_to_unsigned, unsigned_to_signed};
+        use crate::r#static::integer::{signed_to_unsigned, unsigned_to_signed};
 
         for signed in -100..100 {
             assert_eq!(signed, unsigned_to_signed(signed_to_unsigned(signed)));
@@ -67,7 +67,11 @@ mod tests {
         for _ in 0..30 {
             assert_eq!(n, u32::from_bytes(&n.to_bytes(), 0).unwrap());
             assert_eq!(n as i32, i32::from_bytes(&(n as i32).to_bytes(), 0).unwrap());
+            assert_eq!(n as i32 + 1, i32::from_bytes(&(n as i32 + 1).to_bytes(), 0).unwrap());
+            assert_eq!(n as i32 - 1, i32::from_bytes(&(n as i32 - 1).to_bytes(), 0).unwrap());
             assert_eq!(-(n as i32), i32::from_bytes(&(-(n as i32)).to_bytes(), 0).unwrap());
+            assert_eq!(-(n as i32) + 1, i32::from_bytes(&(-(n as i32) + 1).to_bytes(), 0).unwrap());
+            assert_eq!(-(n as i32) - 1, i32::from_bytes(&(-(n as i32) - 1).to_bytes(), 0).unwrap());
 
             n *= 2;
         }

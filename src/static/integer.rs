@@ -35,7 +35,7 @@ impl HSerde for u32 {
 
     }
 
-    fn from_bytes_internal(bytes: &[u8], mut index: usize) -> Result<(u32, usize), HSerdeError> {
+    fn from_bytes_internal(bytes: &[u8], mut index: usize) -> Result<(Self, usize), HSerdeError> {
         let mut result = 0;
 
         if index >= bytes.len() {
@@ -92,7 +92,7 @@ impl HSerde for usize {
 
     }
 
-    fn from_bytes_internal(bytes: &[u8], mut index: usize) -> Result<(usize, usize), HSerdeError> {
+    fn from_bytes_internal(bytes: &[u8], mut index: usize) -> Result<(Self, usize), HSerdeError> {
         let mut result = 0;
 
         if index >= bytes.len() {
@@ -149,7 +149,7 @@ impl HSerde for u64 {
 
     }
 
-    fn from_bytes_internal(bytes: &[u8], mut index: usize) -> Result<(u64, usize), HSerdeError> {
+    fn from_bytes_internal(bytes: &[u8], mut index: usize) -> Result<(Self, usize), HSerdeError> {
         let mut result = 0;
 
         if index >= bytes.len() {

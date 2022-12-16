@@ -14,7 +14,7 @@ impl HSerde for bool {
 
     }
 
-    fn from_bytes_internal(bytes: &[u8], index: usize) -> Result<(bool, usize), HSerdeError> {
+    fn from_bytes_internal(bytes: &[u8], index: usize) -> Result<(Self, usize), HSerdeError> {
 
         if index >= bytes.len() {
             Err(HSerdeError::IndexError)

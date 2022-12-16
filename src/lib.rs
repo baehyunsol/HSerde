@@ -1,12 +1,6 @@
-mod boolean;
+mod r#static;
+mod dynamic;
 mod error;
-mod integer;
-mod string;
-mod tuple;
-mod vector;
-
-#[cfg(test)]
-mod testbench;
 
 pub use error::HSerdeError;
 
@@ -14,6 +8,7 @@ pub trait HSerde {
 
     fn to_bytes(&self) -> Vec<u8>;
 
+    /// You won't need this function
     fn from_bytes_internal(bytes: &[u8], index: usize) -> Result<(Self, usize), HSerdeError> where Self: Sized;  // (deserialized, next_index)
 
     /// `bytes` is the serialized data generatd by the `to_bytes` method.
