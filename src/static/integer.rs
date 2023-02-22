@@ -6,6 +6,37 @@ use crate::{HSerde, HSerdeError};
 // 16385 -> [1_1, 1_0, 0_1]
 impl HSerde for u32 {
 
+    fn to_bytes_internal(&self, result: &mut Vec<u8>) {
+
+        if *self < 128 {
+            result.push(*self as u8);
+        }
+
+        else if *self < 128 * 128 {
+            result.push((self / 128) as u8 + 128);
+            result.push((self % 128) as u8);
+        }
+
+        else if *self < 128 * 128 * 128 {
+            result.push((self / 128 / 128) as u8 + 128);
+            result.push((self / 128 % 128) as u8 + 128);
+            result.push((self % 128) as u8);
+        }
+
+        else {
+            let mut n = *self;
+            let mut result = vec![];
+
+            while n > 0 {
+                result.push((n % 128) as u8 + 128);
+                n /= 128;
+            }
+
+            result[0] -= 128;
+            result.into_iter().rev().collect()
+        }
+    }
+
     fn to_bytes(&self) -> Vec<u8> {
 
         if *self < 128 {

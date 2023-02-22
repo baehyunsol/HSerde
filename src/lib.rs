@@ -6,6 +6,9 @@ pub use error::HSerdeError;
 
 pub trait HSerde {
 
+    /// You won't need this function
+    fn to_bytes_internal(&self, result: &mut Vec<u8>);
+
     fn to_bytes(&self) -> Vec<u8>;
 
     /// You won't need this function

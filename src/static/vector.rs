@@ -2,16 +2,20 @@ use crate::{HSerde, HSerdeError};
 
 impl<T: HSerde> HSerde for Vec<T> {
 
-    fn to_bytes(&self) -> Vec<u8> {
-        let mut result = Vec::with_capacity(self.len() + 1);
-
-        result.push(self.len().to_bytes());
+    fn to_bytes_internal(&self, result: &mut Vec<u8>) {
+        self.len().to_bytes_internal(result);
 
         for n in self.iter() {
-            result.push(n.to_bytes());
+            n.to_bytes_internal(result);
         }
 
-        result.concat()
+    }
+
+    fn to_bytes(&self) -> Vec<u8> {
+        let mut result = Vec::with_capacity(self.len() * 4);
+        self.to_bytes_internal(&mut result);
+
+        result
     }
 
     fn from_bytes_internal(bytes: &[u8], index: usize) -> Result<(Self, usize), HSerdeError> {

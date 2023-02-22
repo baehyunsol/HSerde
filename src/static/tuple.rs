@@ -2,6 +2,11 @@ use crate::{HSerde, HSerdeError};
 
 impl<T: HSerde, U: HSerde> HSerde for (T, U) {
 
+    fn to_bytes_internal(&self, result: &mut Vec<u8>) {
+        self.0.to_bytes_internal(result);
+        self.1.to_bytes_internal(result);
+    }
+
     fn to_bytes(&self) -> Vec<u8> {
         vec![
             self.0.to_bytes(),
@@ -19,6 +24,12 @@ impl<T: HSerde, U: HSerde> HSerde for (T, U) {
 }
 
 impl<T: HSerde, U: HSerde, V: HSerde> HSerde for (T, U, V) {
+
+    fn to_bytes_internal(&self, result: &mut Vec<u8>) {
+        self.0.to_bytes_internal(result);
+        self.1.to_bytes_internal(result);
+        self.2.to_bytes_internal(result);
+    }
 
     fn to_bytes(&self) -> Vec<u8> {
         vec![
@@ -39,6 +50,13 @@ impl<T: HSerde, U: HSerde, V: HSerde> HSerde for (T, U, V) {
 }
 
 impl<T: HSerde, U: HSerde, V: HSerde, W: HSerde> HSerde for (T, U, V, W) {
+
+    fn to_bytes_internal(&self, result: &mut Vec<u8>) {
+        self.0.to_bytes_internal(result);
+        self.1.to_bytes_internal(result);
+        self.2.to_bytes_internal(result);
+        self.3.to_bytes_internal(result);
+    }
 
     fn to_bytes(&self) -> Vec<u8> {
         vec![
@@ -61,6 +79,14 @@ impl<T: HSerde, U: HSerde, V: HSerde, W: HSerde> HSerde for (T, U, V, W) {
 }
 
 impl<T: HSerde, U: HSerde, V: HSerde, W: HSerde, X: HSerde> HSerde for (T, U, V, W, X) {
+
+    fn to_bytes_internal(&self, result: &mut Vec<u8>) {
+        self.0.to_bytes_internal(result);
+        self.1.to_bytes_internal(result);
+        self.2.to_bytes_internal(result);
+        self.3.to_bytes_internal(result);
+        self.4.to_bytes_internal(result);
+    }
 
     fn to_bytes(&self) -> Vec<u8> {
         vec![

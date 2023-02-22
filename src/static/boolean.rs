@@ -2,6 +2,18 @@ use crate::{HSerde, HSerdeError};
 
 impl HSerde for bool {
 
+    fn to_bytes_internal(&self, result: &mut Vec<u8>) {
+
+        if *self {
+            result.push(1);
+        }
+
+        else {
+            result.push(0);
+        }
+
+    }
+
     fn to_bytes(&self) -> Vec<u8> {
 
         if *self {
